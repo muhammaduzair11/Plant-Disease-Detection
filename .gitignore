@@ -1,33 +1,15 @@
-# Virtual environments
-.venv/
+# Ignore datasets
+data/
+dataset/
 venv/
-env/
+*.csv
+*.zip
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Jupyter
-.ipynb_checkpoints
-
-# Distribution / packaging
-*.egg-info/
-dist/
-build/
-
-# Data and model files
-/dataset/
-/data/
+# Ignore large model weights
 *.h5
-*.hdf5
+*.pt
 *.ckpt
-*.pb
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDEs
-.vscode/
-.idea/
+# Ignore unnecessary stuff
+__pycache__/
+*.log
