@@ -94,32 +94,12 @@ The trained MobileNetV2 model achieved a high level of performance. Key metrics 
 - **Overall Accuracy:** ~87%
 - **Precision, Recall, and F1-score:** The model demonstrated a strong balance of performance across most classes.
 
-The visual results below provide further insight into the model's performance and decision-making process.
-
-_(Please insert your charts and images here.)_
-
-Figure 1: Training and Validation Accuracy/Loss Curves
-
-A line chart showing the model's learning progress over a number of epochs. This helps visualize if the model is learning effectively and if there is any sign of overfitting.
-
-Figure 2: Confusion Matrix Heatmap
-
-A heatmap showing the number of correct and incorrect predictions for each class. This provides a detailed view of which classes the model is performing well on and which it may be confusing.
-
-Figure 3: Grad-CAM Visualization
-
-Examples of Grad-CAM heatmaps overlaid on leaf images, demonstrating the specific regions the model focuses on to make its predictions.
-
 ## **🔮 Future Work**
 
 - **Dataset Expansion:** Expand the dataset with real-world field images to improve the model's generalization to diverse environmental conditions.
 - **Mobile Deployment:** Develop a dedicated mobile application for real-time, on-site disease detection by farmers.
 - **IoT Integration:** Integrate the system with drone or IoT devices for large-scale, automated crop monitoring.
 - **Advanced Explainability:** Explore and implement more sophisticated explainability techniques beyond Grad-CAM.
-
-## **📜 License**
-
-This project is licensed under the MIT License.
 
 ## **🙌 Acknowledgements**
 
