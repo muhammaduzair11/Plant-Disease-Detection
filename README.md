@@ -1,143 +1,129 @@
-🌱 Plant Disease Detection with Deep Learning
+# **🌱 Plant Disease Detection System**
 
-📌 Overview
+## **📌 Overview**
 
-This project implements a Plant Disease Detection System using MobileNetV2 (Transfer Learning) on the PlantVillage Tomato dataset.
-The model classifies tomato leaf images into multiple disease categories and healthy leaves.
+This project presents a robust and explainable deep learning system for the detection and classification of diseases in plant leaves. Utilizing a Convolutional Neural Network (CNN) based on the efficient **MobileNetV2** architecture, the model is trained on a subset of the **PlantVillage** dataset, specifically focused on tomato leaf diseases.
 
-To enhance interpretability, we integrated Grad-CAM for visual explanations.
-We also built an interactive Streamlit dashboard for real-time predictions, performance visualization, and explainability.
+To move beyond the "black box" nature of deep learning, we integrated **Gradient-weighted Class Activation Mapping (Grad-CAM)** to provide visual explanations of the model's predictions. The entire system is packaged within an interactive **Streamlit** web application, offering a user-friendly interface for real-time predictions, performance visualization, and model interpretability.
 
-✨ Features
+## **✨ Key Features**
 
-✅ Train deep learning model (MobileNetV2) on PlantVillage dataset
+- **Deep Learning Model:** Implements a state-of-the-art deep learning model using **MobileNetV2** with transfer learning for high-accuracy classification.
+- **Model Interpretability:** Utilizes **Grad-CAM** to generate heatmaps that highlight the specific regions of a leaf image that influence the model's decision.
+- **Comprehensive Evaluation:** Evaluates model performance using a full suite of metrics, including **Accuracy, Precision, Recall, F1-score**, and a **Confusion Matrix**.
+- **Interactive Web Application:** Deploys a user-friendly **Streamlit** dashboard for:
+  - Uploading an image and receiving a real-time disease prediction.
+  - Visualizing training metrics (accuracy/loss curves).
+  - Displaying the confusion matrix and classification report.
+  - Showcasing Grad-CAM heatmaps for explainable predictions.
 
-✅ Handle class imbalance with class weights
+## **⚙️ Technical Stack**
 
-✅ Evaluate with multiple metrics: Accuracy, Precision, Recall, F1-score, Confusion Matrix
+- **Frameworks:** TensorFlow, Keras, Streamlit
+- **Libraries:** NumPy, Matplotlib, Seaborn, scikit-learn, OpenCV, Pillow
+- **Model:** MobileNetV2 (Pre-trained on ImageNet)
+- **Optimizer:** Adam
+- **Dataset:** PlantVillage Dataset (Tomato subset)
 
-✅ Visualize Grad-CAM heatmaps for explainability
+## **📂 Project Structure**
 
-✅ Interactive Streamlit App with:
+.  
+├── .venv/ # Python virtual environment  
+├── .vscode/ # VS Code configuration  
+├── src/ # Source code  
+│ ├── train.py # Model training script  
+│ ├── predict.py # Single-image prediction script  
+│ ├── evaluate.py # Model evaluation script  
+│ ├── gradcam.py # Grad-CAM visualization utility  
+│ └── app.py # Streamlit web application  
+├── plant_model.h5 # Saved trained model weights  
+├── class_indices.json # Maps class indices to labels  
+├── metrics.json # Training history (accuracy & loss)  
+├── report.json # Classification report JSON  
+├── confusion_matrix.npy # Raw confusion matrix data  
+├── requirements.txt # Project dependencies  
+├── README.md # This file  
 
-Upload leaf image & get predictions
+## **📊 Dataset**
 
-Probability distribution bar chart
+This project uses the publicly available **PlantVillage Dataset (Tomato subset)**. This dataset contains images of tomato leaves classified into 10 categories, including healthy leaves and various diseases.
 
-Grad-CAM visualization
+- **Classes:**
+  - Tomato_Bacterial_spot
+  - Tomato_Early_blight
+  - Tomato_Late_blight
+  - Tomato_Leaf_Mold
+  - Tomato_Septoria_leaf_spot
+  - Tomato_Spider_mites_Two_spotted_spider_mite
+  - Tomato_Target_Spot
+  - Tomato_YellowLeaf_Curl_Virus
+  - Tomato_mosaic_virus
+  - Tomato_healthy
 
-Training metrics (Accuracy/Loss curves)
+⚠️ **Note:** The dataset itself is not included in this repository due to its large size. You can download it from the official [PlantVillage Dataset](https://www.google.com/search?q=https://www.kaggle.com/datasets/plantvillage/plant-village-dataset) page and place it in the dataset/tomato/ directory.
 
-Confusion Matrix & Classification Report
+## **🚀 Getting Started**
 
-📂 Project Structure
-├── dataset/                # Dataset folder (⚠️ not included due to size)
-│   └── tomato/             # Subfolders per class
-├── plant_model.h5          # Saved trained model
-├── class_indices.json      # Mapping of class indices to labels
-├── metrics.json            # Training history (accuracy/loss)
-├── report.json             # Classification report
-├── confusion_matrix.npy    # Confusion matrix
-├── src/
-│   ├── train.py            # Train the model
-│   ├── predict.py          # Test a single image
-│   ├── evaluate.py         # Evaluate model & save metrics
-│   ├── gradcam.py          # Grad-CAM visualizer
-│   └── app.py              # Streamlit web app
+### **1\. Environment Setup**
 
-⚙️ Environment Setup
+Clone the repository and install the required dependencies:
 
-This project uses Python 3.9+ with the following dependencies:
+git clone \[<https://github.com/muhammaduzair11/Plant-Disease-Detection.git\>](<https://github.com/muhammaduzair11/Plant-Disease-Detection.git>)  
+cd Plant-Disease-Detection  
+pip install -r requirements.txt  
 
-pip install -r requirements.txt
+### **2\. Usage**
 
-requirements.txt
-tensorflow==2.12.0
-opencv-python
-numpy
-matplotlib
-seaborn
-pandas
-scikit-learn
-streamlit
-Pillow
+You can run the project components from the src directory:
 
-📊 Dataset
+\# To train the model  
+python src/train.py  
+<br/>\# To evaluate the model  
+python src/evaluate.py  
+<br/>\# To make a prediction on a single image  
+python src/predict.py  
+<br/>\# To visualize Grad-CAM for an image  
+python src/gradcam.py  
+<br/>\# To run the interactive web application  
+streamlit run src/app.py  
 
-Source: PlantVillage Dataset (Tomato subset).
+## **📈 Results**
 
-Contains 10 classes:
+The trained MobileNetV2 model achieved a high level of performance. Key metrics on the validation set include:
 
-Tomato_Bacterial_spot
+- **Overall Accuracy:** ~87%
+- **Precision, Recall, and F1-score:** The model demonstrated a strong balance of performance across most classes.
 
-Tomato_Early_blight
+The visual results below provide further insight into the model's performance and decision-making process.
 
-Tomato_Late_blight
+_(Please insert your charts and images here.)_
 
-Tomato_Leaf_Mold
+Figure 1: Training and Validation Accuracy/Loss Curves
 
-Tomato_Septoria_leaf_spot
+A line chart showing the model's learning progress over a number of epochs. This helps visualize if the model is learning effectively and if there is any sign of overfitting.
 
-Tomato_Spider_mites_Two_spotted_spider_mite
+Figure 2: Confusion Matrix Heatmap
 
-Tomato_Target_Spot
+A heatmap showing the number of correct and incorrect predictions for each class. This provides a detailed view of which classes the model is performing well on and which it may be confusing.
 
-Tomato_YellowLeaf_Curl_Virus
+Figure 3: Grad-CAM Visualization
 
-Tomato_mosaic_virus
+Examples of Grad-CAM heatmaps overlaid on leaf images, demonstrating the specific regions the model focuses on to make its predictions.
 
-Tomato_healthy
+## **🔮 Future Work**
 
-⚠️ Note: The dataset is not included in this repository due to size.
-You can download it from PlantVillage Dataset
- or manually place it under dataset/tomato/.
+- **Dataset Expansion:** Expand the dataset with real-world field images to improve the model's generalization to diverse environmental conditions.
+- **Mobile Deployment:** Develop a dedicated mobile application for real-time, on-site disease detection by farmers.
+- **IoT Integration:** Integrate the system with drone or IoT devices for large-scale, automated crop monitoring.
+- **Advanced Explainability:** Explore and implement more sophisticated explainability techniques beyond Grad-CAM.
 
-🚀 Usage
-1️⃣ Train the Model
-python src/train.py
+## **📜 License**
 
-2️⃣ Evaluate the Model
-python src/evaluate.py
+This project is licensed under the MIT License.
 
-3️⃣ Predict on a Single Image
-python src/predict.py
+## **🙌 Acknowledgements**
 
-4️⃣ Visualize Grad-CAM
-python src/gradcam.py
-
-5️⃣ Run the Streamlit App
-streamlit run src/app.py
-
-📈 Results
-
-Accuracy: ~87% on validation set
-
-Precision/Recall/F1-score: Balanced across most classes
-
-Confusion Matrix & Grad-CAM: Show model focus regions and class-wise performance
-
-(Insert screenshots here: training curves, confusion matrix, Grad-CAM examples, Streamlit app demo)
-
-🔮 Future Work
-
-Expand dataset with real-world field images
-
-Deploy as a mobile app for farmers
-
-Add support for more crops
-
-Integrate with IoT devices/drones for large-scale monitoring
-
-📜 License
-
-This project is open-source under the MIT License.
-
-🙌 Acknowledgements
-
-PlantVillage dataset
-
-TensorFlow / Keras
-
-Streamlit
-
-Grad-CAM (Selvaraju et al., 2017)
+- **PlantVillage:** For providing the comprehensive dataset.
+- **Selvaraju et al., (2017):** For their seminal work on Grad-CAM.
+- **TensorFlow & Keras:** For the deep learning framework.
+- **Streamlit:** For the web application framework.
