@@ -6,7 +6,6 @@ venv/
 *.zip
 
 # Ignore large model weights
-*.h5
 *.pt
 *.ckpt
 
