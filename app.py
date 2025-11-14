@@ -10,6 +10,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 import cv2
 import pandas as pd
 import os
+from scipy.stats import entropy
 
 # ---------------------------
 # Page Config
@@ -69,44 +70,58 @@ def overlay_gradcam(img, heatmap, alpha=0.4):
 st.sidebar.header("🔍 Make a Prediction")
 uploaded = st.sidebar.file_uploader("Upload a leaf image", type=["jpg", "png"])
 
+# Strict thresholds
+CONFIDENCE_THRESHOLD = 0.7  # very high confidence required
+ENTROPY_THRESHOLD = 1.2  # low entropy required (lower = more confident)
+
 if uploaded:
     img = Image.open(uploaded).convert("RGB").resize((224, 224))
     arr = np.expand_dims(preprocess_input(np.array(img)), 0)
 
     pred = model.predict(arr, verbose=0)[0]
     cls_idx = int(np.argmax(pred))
-    cls = idx_to_class[cls_idx].replace("_", " ")
+    confidence = np.max(pred)
+    pred_entropy = entropy(pred)
 
-    st.subheader(f"✅ Prediction: **{cls}** ({np.max(pred)*100:.2f}%)")
+    # Reject non-leaf images if too uncertain
+    if confidence < CONFIDENCE_THRESHOLD or pred_entropy > ENTROPY_THRESHOLD:
+        st.error(
+            "❌ This image does not look like a valid leaf. Please upload a proper leaf image."
+        )
+    else:
+        cls = idx_to_class[cls_idx].replace("_", " ")
+        st.subheader(f"✅ Prediction: **{cls}** ({confidence*100:.2f}%)")
 
-    # Probability Distribution
-    st.markdown("### 📊 Prediction Probabilities")
-    probs = {
-        idx_to_class[i].replace("_", " "): float(pred[i]) for i in range(len(pred))
-    }
-    fig, ax = plt.subplots(figsize=(8, 4))
-    sns.barplot(x=list(probs.values()), y=list(probs.keys()), ax=ax, palette="viridis")
-    ax.set_xlabel("Probability")
-    ax.set_ylabel("Class")
-    st.pyplot(fig)
+        # Probability Distribution
+        st.markdown("### 📊 Prediction Probabilities")
+        probs = {
+            idx_to_class[i].replace("_", " "): float(pred[i]) for i in range(len(pred))
+        }
+        fig, ax = plt.subplots(figsize=(8, 4))
+        sns.barplot(
+            x=list(probs.values()), y=list(probs.keys()), ax=ax, palette="viridis"
+        )
+        ax.set_xlabel("Probability")
+        ax.set_ylabel("Class")
+        st.pyplot(fig)
 
-    # Grad-CAM Visualization
-    st.subheader("👁️ Grad-CAM Visualization")
-    heatmap = get_gradcam_heatmap(
-        arr, model, last_conv_layer_name="Conv_1", pred_index=cls_idx
-    )
-    gradcam_img = overlay_gradcam(img, heatmap)
+        # Grad-CAM Visualization
+        st.subheader("👁️ Grad-CAM Visualization")
+        heatmap = get_gradcam_heatmap(
+            arr, model, last_conv_layer_name="Conv_1", pred_index=cls_idx
+        )
+        gradcam_img = overlay_gradcam(img, heatmap)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.image(img, caption="Uploaded Leaf", use_column_width=True)
-    with col2:
-        st.image(gradcam_img, caption="Grad-CAM", use_column_width=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.image(img, caption="Uploaded Leaf", use_column_width=True)
+        with col2:
+            st.image(gradcam_img, caption="Grad-CAM", use_column_width=True)
 
-    # Download Grad-CAM
-    gradcam_img.save("gradcam_result.jpg")
-    with open("gradcam_result.jpg", "rb") as f:
-        st.download_button("📥 Download Grad-CAM", f, file_name="gradcam.jpg")
+        # Download Grad-CAM
+        gradcam_img.save("gradcam_result.jpg")
+        with open("gradcam_result.jpg", "rb") as f:
+            st.download_button("📥 Download Grad-CAM", f, file_name="gradcam.jpg")
 
 # ---------------------------
 # Training Metrics
